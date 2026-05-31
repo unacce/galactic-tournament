@@ -1,0 +1,188 @@
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-danger text-white">
+      <h2 class="mb-0">⚔️ Arena de Batalla</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-5">
+          <label class="form-label"> Primera Especie </label>
+
+          <select class="form-select" [(ngModel)]="battleRequest.speciesOneId">
+            <option [value]="0">Selecciona Especie</option>
+
+            @for (species of speciesList; track species.id) {
+              <option [value]="species.id">
+                {{ species.name }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-2 text-center">
+          <h1 class="mt-4 text-danger">VS</h1>
+        </div>
+
+        <div class="col-md-5">
+          <label class="form-label"> Segunda Especie </label>
+
+          <select class="form-select" [(ngModel)]="battleRequest.speciesTwoId">
+            <option [value]="0">Selecciona Especie</option>
+
+            @for (species of speciesList; track species.id) {
+              <option [value]="species.id">
+                {{ species.name }}
+              </option>
+            }
+          </select>
+        </div>
+      </div>
+
+      @if (selectedSpeciesOne || selectedSpeciesTwo) {
+        <div class="row mt-4">
+          <div class="col-md-5">
+            @if (selectedSpeciesOne) {
+              <div class="card border-primary shadow-sm">
+                <div class="card-header bg-primary text-white">
+                  {{ selectedSpeciesOne.name }}
+                </div>
+
+                <div class="card-body">
+                  <p class="mb-1">
+                    <strong>Nivel de Poder</strong>
+                  </p>
+
+                  <div class="progress mb-3">
+                    <div
+                      class="progress-bar bg-danger"
+                      role="progressbar"
+                      [style.width.%]="selectedSpeciesOne.powerLevel / 100"
+                    >
+                      {{ selectedSpeciesOne.powerLevel }}
+                    </div>
+                  </div>
+
+                  <p>
+                    <strong>Habilidad:</strong>
+
+                    {{ selectedSpeciesOne.specialAbility }}
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="col-md-2 text-center">
+            <h2 class="mt-5 text-danger">⚔️</h2>
+          </div>
+
+          <div class="col-md-5">
+            @if (selectedSpeciesTwo) {
+              <div class="card border-warning shadow-sm">
+                <div class="card-header bg-warning">
+                  {{ selectedSpeciesTwo.name }}
+                </div>
+
+                <div class="card-body">
+                  <p class="mb-1">
+                    <strong>Power Level</strong>
+                  </p>
+
+                  <div class="progress mb-3">
+                    <div
+                      class="progress-bar bg-warning text-dark"
+                      role="progressbar"
+                      [style.width.%]="selectedSpeciesTwo.powerLevel / 100"
+                    >
+                      {{ selectedSpeciesTwo.powerLevel }}
+                    </div>
+                  </div>
+
+                  <p>
+                    <strong>Ability:</strong>
+
+                    {{ selectedSpeciesTwo.specialAbility }}
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (
+        battleRequest.speciesOneId !== 0 &&
+        battleRequest.speciesOneId === battleRequest.speciesTwoId
+      ) {
+        <div class="alert alert-warning mt-3">
+          ⚠️ Seleccione dos especies diferentes para iniciar una batalla.
+        </div>
+      }
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <button
+            class="btn btn-danger w-100"
+            (click)="createBattle()"
+            [disabled]="
+              battleRequest.speciesOneId === 0 ||
+              battleRequest.speciesTwoId === 0 ||
+              battleRequest.speciesOneId === battleRequest.speciesTwoId
+            "
+          >
+            ⚔️ Iniciar batalla
+          </button>
+        </div>
+
+        <div class="col-md-6">
+          <button class="btn btn-warning w-100" type="button" (click)="startRandomBattle()">
+            🎲 Batalla Aleatoria
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (battleResult) {
+    <div class="card mt-4 shadow border-success">
+      <div class="card-header bg-success text-white">
+        <h3 class="mb-0">🏆 Resultado de la batalla</h3>
+      </div>
+
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-3">
+            <h6>ID de la batalla</h6>
+
+            <span class="badge bg-dark">
+              {{ battleResult.battleId }}
+            </span>
+          </div>
+
+          <div class="col-md-3">
+            <h6>Especie 1</h6>
+
+            <p class="fw-bold">
+              {{ battleResult.speciesOne }}
+            </p>
+          </div>
+
+          <div class="col-md-3">
+            <h6>Especie 2</h6>
+
+            <p class="fw-bold">
+              {{ battleResult.speciesTwo }}
+            </p>
+          </div>
+
+          <div class="col-md-3">
+            <h6>Ganador</h6>
+
+            <span class="badge bg-success fs-6"> 🏆 {{ battleResult.winner }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
