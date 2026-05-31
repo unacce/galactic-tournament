@@ -140,7 +140,7 @@ Instalar previamente:
 ### Clonar repositorio
 
 ```bash
-git clone https://github.com/USUARIO/galactic-tournament.git
+git clone https://github.com/ebchalacan92/galactic-tournament.git
 
 cd galactic-tournament
 ```
