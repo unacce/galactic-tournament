@@ -1,0 +1,17 @@
+services:
+
+  backend:
+    container_name: galactic-backend
+    build:
+      context: ./backend/galactic-tournament-api
+    ports:
+      - "8080:8080"
+
+  frontend:
+    container_name: galactic-frontend
+    build:
+      context: ./frontend/galactic-tournament-ui
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
